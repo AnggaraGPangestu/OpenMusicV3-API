@@ -1,20 +1,33 @@
 exports.up = (pgm) => {
-  pgm.createTable("albums", {
+  pgm.createTable('albums', {
     id: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
     name: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     year: {
-      type: "INT",
+      type: 'INT',
       notNull: true,
+    },
+    coverUrl: {
+      type: 'VARCHAR(225)',
+    },
+    createdAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+    updatedAt: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
     },
   });
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable("albums");
+  pgm.dropTable('albums');
 };
