@@ -1,9 +1,9 @@
-const { nanoid } = require("nanoid");
-const { Pool } = require("pg");
-const InvariantError = require("../../exceptions/InvariantError");
-const NotFoundError = require("../../exceptions/NotFoundError");
-const AuthorizationError = require("../../exceptions/AuthorizationError");
-const ClientError = require("../../exceptions/ClientError");
+const { nanoid } = require('nanoid');
+const { Pool } = require('pg');
+const InvariantError = require('../../exceptions/InvariantError');
+const NotFoundError = require('../../exceptions/NotFoundError');
+const AuthorizationError = require('../../exceptions/AuthorizationError');
+const ClientError = require('../../exceptions/ClientError');
 
 class PlaylistsService {
   constructor(collaborationService, activitiesService) {
@@ -13,20 +13,20 @@ class PlaylistsService {
   }
 
   async addPlaylist({ name, owner }) {
-    const id = "playlist-" + nanoid(16);
+    const id = `playlist-${nanoid(16)}`;
 
     const query = {
-      text: "INSERT INTO playlists VALUES($1, $2, $3) RETURNING id",
+      text: 'INSERT INTO playlists VALUES($1, $2, $3) RETURNING id',
       values: [id, name, owner],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError("Fail to add playlist");
+      throw new InvariantError('Fail to add playlist');
     }
-    const songId = "-";
-    const action = "Create Playlist";
+    const songId = '-';
+    const action = 'Create Playlist';
     await this._activitiesService.addActivity(id, songId, owner, action);
 
     return result.rows[0].id;
@@ -34,12 +34,12 @@ class PlaylistsService {
 
   async getPlaylists(owner) {
     const queryCollab = {
-      text: `SELECT playlist_id from collaborations where user_id = $1`,
+      text: 'SELECT playlist_id from collaborations where user_id = $1',
       values: [owner],
     };
     const result2 = await this._pool.query(queryCollab);
 
-    let playlistId = "";
+    let playlistId = '';
     if (result2.rows.length) {
       const result = result2.rows[0].playlist_id;
       playlistId = result;
@@ -60,7 +60,7 @@ class PlaylistsService {
 
   async deletePlaylistById(playlistId) {
     const query = {
-      text: "DELETE FROM playlists WHERE id = $1 RETURNING id",
+      text: 'DELETE FROM playlists WHERE id = $1 RETURNING id',
       values: [playlistId],
     };
 
@@ -68,31 +68,31 @@ class PlaylistsService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError("Delete failed. Id not found");
+      throw new NotFoundError('Delete failed. Id not found');
     }
   }
 
   async addSongToPlaylist(songId, playlistId, credentialId) {
-    const id = "playlist_song-" + nanoid(16);
+    const id = `playlist_song-${nanoid(16)}`;
     const query = {
-      text: "INSERT INTO songs_in_playlists VALUES($1, $2, $3) RETURNING id",
+      text: 'INSERT INTO songs_in_playlists VALUES($1, $2, $3) RETURNING id',
       values: [id, songId, playlistId],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError("Fail to add song to playlist");
+      throw new InvariantError('Fail to add song to playlist');
     }
 
-    const action = "add";
+    const action = 'add';
     const userId = credentialId;
 
     await this._activitiesService.addActivity(
       playlistId,
       songId,
       userId,
-      action
+      action,
     );
 
     return result.rows[0].id;
@@ -126,7 +126,7 @@ class PlaylistsService {
     };
 
     if (!result.rows.length) {
-      throw new NotFoundError("Playlist not found");
+      throw new NotFoundError('Playlist not found');
     }
 
     return combine;
@@ -134,16 +134,16 @@ class PlaylistsService {
 
   async deleteSongFromPlaylist(id, playlistId, credentialId) {
     const query = {
-      text: "DELETE FROM songs_in_playlists WHERE song_id = $1 AND playlist_id = $2 RETURNING id",
+      text: 'DELETE FROM songs_in_playlists WHERE song_id = $1 AND playlist_id = $2 RETURNING id',
       values: [id, playlistId],
     };
 
     const result = await this._pool.query(query);
     if (!result.rows.length) {
-      throw new ClientError("Delete failed. Id not found");
+      throw new ClientError('Delete failed. Id not found');
     }
 
-    const action = "delete";
+    const action = 'delete';
     const songId = id;
     const userId = credentialId;
 
@@ -151,37 +151,37 @@ class PlaylistsService {
       playlistId,
       songId,
       userId,
-      action
+      action,
     );
   }
 
   async verifyPlaylistOwner(playlistId, userId) {
     const query = {
-      text: "SELECT * FROM playlists WHERE id = $1",
+      text: 'SELECT * FROM playlists WHERE id = $1',
       values: [playlistId],
     };
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError("Playlist not found");
+      throw new NotFoundError('Playlist not found');
     }
     const playlist = result.rows[0];
     if (playlist.owner !== userId) {
       throw new AuthorizationError(
-        "You don't have the right to access this resource"
+        "You don't have the right to access this resource",
       );
     }
   }
 
   async verifySongId(id) {
     const query = {
-      text: "select * from songs where id = $1",
+      text: 'select * from songs where id = $1',
       values: [id],
     };
 
     const result = await this._pool.query(query);
     if (!result.rows.length) {
-      throw new NotFoundError(" not found");
+      throw new NotFoundError(' not found');
     }
   }
 

@@ -1,27 +1,27 @@
 const routes = (handler) => [
   {
-    method: "POST",
-    path: "/albums",
+    method: 'POST',
+    path: '/albums',
     handler: handler.postRekamanHandler,
   },
   {
-    method: "GET",
-    path: "/albums",
+    method: 'GET',
+    path: '/albums',
     handler: handler.getRekamansHandler,
   },
   {
-    method: "GET",
-    path: "/albums/{id}",
+    method: 'GET',
+    path: '/albums/{id}',
     handler: handler.getRekamanByIdHandler,
   },
   {
-    method: "PUT",
-    path: "/albums/{id}",
+    method: 'PUT',
+    path: '/albums/{id}',
     handler: handler.putRekamanByIdHandler,
   },
   {
-    method: "DELETE",
-    path: "/albums/{id}",
+    method: 'DELETE',
+    path: '/albums/{id}',
     handler: handler.deleteRekamanByIdHandler,
   },
 ];
