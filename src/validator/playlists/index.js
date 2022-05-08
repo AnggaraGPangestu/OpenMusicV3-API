@@ -1,8 +1,8 @@
 const {
   PostPlaylistPayloadSchema,
   PostSongToPlaylistPayloadSchema,
-} = require("./schema");
-const InvariantError = require("../../exceptions/InvariantError");
+} = require('./schema');
+const InvariantError = require('../../exceptions/InvariantError');
 
 const AuthenticationsValidator = {
   validatePostPlaylistPayload: (payload) => {

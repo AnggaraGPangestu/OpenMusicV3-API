@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-const ClientError = require("../../exceptions/ClientError");
+const ClientError = require('../../exceptions/ClientError');
 
 class PlaylistsHandler {
   constructor(service, validator) {
@@ -14,6 +14,7 @@ class PlaylistsHandler {
     this.getMusiksInDaftarPutarHandler = this.getMusiksInDaftarPutarHandler.bind(this);
     this.deleteMusikFromDaftarPutarHandler = this.deleteMusikFromDaftarPutarHandler.bind(this);
   }
+
   async postDaftarPutarHandler(request, h) {
     try {
       this._validator.validatePostPlaylistPayload(request.payload);
@@ -26,10 +27,10 @@ class PlaylistsHandler {
       });
 
       const response = h.response({
-        status: "success",
-        message: "Playlist added successfully",
+        status: 'success',
+        message: 'Playlist added successfully',
         data: {
-          playlistId: playlistId,
+          playlistId,
         },
       });
       response.code(201);
@@ -37,7 +38,7 @@ class PlaylistsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -45,8 +46,8 @@ class PlaylistsHandler {
       }
       // server error
       const response = h.response({
-        status: "error",
-        message: "Sorry, server failures",
+        status: 'error',
+        message: 'Sorry, server failures',
       });
       response.code(500);
       console.error(error);
@@ -58,7 +59,7 @@ class PlaylistsHandler {
     const { id: credentialId } = request.auth.credentials;
     const playlists = await this._service.getPlaylists(credentialId);
     return {
-      status: "success",
+      status: 'success',
       data: {
         playlists,
       },
@@ -75,13 +76,13 @@ class PlaylistsHandler {
       await this._service.deletePlaylistById(id);
 
       return {
-        status: "success",
-        message: "Playlist deleted successfully",
+        status: 'success',
+        message: 'Playlist deleted successfully',
       };
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -90,8 +91,8 @@ class PlaylistsHandler {
 
       // server error
       const response = h.response({
-        status: "error",
-        message: "Sorry, server failures.",
+        status: 'error',
+        message: 'Sorry, server failures.',
       });
       response.code(500);
       console.error(error);
@@ -114,12 +115,12 @@ class PlaylistsHandler {
       const resultId = await this._service.addSongToPlaylist(
         songId,
         id,
-        credentialId
+        credentialId,
       );
 
       const response = h.response({
-        status: "success",
-        message: "Playlist added successfully",
+        status: 'success',
+        message: 'Playlist added successfully',
         data: {
           playlistId: resultId,
         },
@@ -129,7 +130,7 @@ class PlaylistsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -137,8 +138,8 @@ class PlaylistsHandler {
       }
       // server error
       const response = h.response({
-        status: "error",
-        message: "Sorry, server failures",
+        status: 'error',
+        message: 'Sorry, server failures',
       });
       response.code(500);
       console.error(error);
@@ -155,7 +156,7 @@ class PlaylistsHandler {
 
       const playlist = await this._service.getPlaylistSong(id, credentialId);
       return {
-        status: "success",
+        status: 'success',
         data: {
           playlist,
         },
@@ -163,7 +164,7 @@ class PlaylistsHandler {
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -172,8 +173,8 @@ class PlaylistsHandler {
 
       // server error
       const response = h.response({
-        status: "error",
-        message: "Sorry, server failures.",
+        status: 'error',
+        message: 'Sorry, server failures.',
       });
       response.code(500);
       console.error(error);
@@ -192,13 +193,13 @@ class PlaylistsHandler {
       await this._service.deleteSongFromPlaylist(songId, id, credentialId);
 
       return {
-        status: "success",
-        message: "Song deleted successfully",
+        status: 'success',
+        message: 'Song deleted successfully',
       };
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -207,8 +208,8 @@ class PlaylistsHandler {
 
       // server error
       const response = h.response({
-        status: "error",
-        message: "Sorry, server failures.",
+        status: 'error',
+        message: 'Sorry, server failures.',
       });
       response.code(500);
       console.error(error);

@@ -1,4 +1,4 @@
-const ClientError = require("../../exceptions/ClientError");
+const ClientError = require('../../exceptions/ClientError');
 
 class AlbumLikesHandler {
   constructor(service, albumsService) {
@@ -18,14 +18,14 @@ class AlbumLikesHandler {
 
       const alreadyLiked = await this._service.checkAlreadyLike(
         credentialId,
-        albumId
+        albumId,
       );
 
       if (!alreadyLiked) {
         const likeId = await this._service.addAlbumLike(credentialId, albumId);
 
         const response = h.response({
-          status: "success",
+          status: 'success',
           message: `Berhasil melakukan like pada album dengan id: ${likeId}`,
         });
         response.code(201);
@@ -35,15 +35,15 @@ class AlbumLikesHandler {
       await this._service.deleteAlbumLike(credentialId, albumId);
 
       const response = h.response({
-        status: "success",
-        message: "Berhasil melakukan unlike",
+        status: 'success',
+        message: 'Berhasil melakukan unlike',
       });
       response.code(201);
       return response;
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -52,8 +52,8 @@ class AlbumLikesHandler {
 
       // Server ERROR!
       const response = h.response({
-        status: "error",
-        message: "Maaf, terjadi kegagalan pada server kami.",
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
       response.code(500);
       console.error(error);
@@ -69,18 +69,18 @@ class AlbumLikesHandler {
       const likes = data.count;
 
       const response = h.response({
-        status: "success",
+        status: 'success',
         data: {
           likes,
         },
       });
-      response.header("X-Data-Source", data.source);
+      response.header('X-Data-Source', data.source);
       response.code(200);
       return response;
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
-          status: "fail",
+          status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
@@ -89,8 +89,8 @@ class AlbumLikesHandler {
 
       // Server ERROR!
       const response = h.response({
-        status: "error",
-        message: "Maaf, terjadi kegagalan pada server kami.",
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
       response.code(500);
       console.error(error);

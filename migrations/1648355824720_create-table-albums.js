@@ -12,9 +12,6 @@ exports.up = (pgm) => {
       type: 'INT',
       notNull: true,
     },
-    coverUrl: {
-      type: 'VARCHAR(225)',
-    },
     createdAt: {
       type: 'timestamp',
       notNull: true,

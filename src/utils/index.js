@@ -11,6 +11,7 @@ const mapDBToModel = ({
   owner,
   playlist_id,
   song_id,
+  coverUrl,
 }) => ({
   id,
   title,
@@ -24,6 +25,7 @@ const mapDBToModel = ({
   owner,
   playlistId: playlist_id,
   songId: song_id,
+  coverUrl,
 });
 
 module.exports = { mapDBToModel };

@@ -1,4 +1,4 @@
-const redis = require("redis");
+const redis = require('redis');
 
 class CacheService {
   constructor() {
@@ -8,7 +8,7 @@ class CacheService {
       },
     });
 
-    this._client.on("error", (error) => {
+    this._client.on('error', (error) => {
       console.error(error);
     });
 
@@ -24,7 +24,7 @@ class CacheService {
   async get(key) {
     const result = await this._client.get(key);
 
-    if (result === null) throw new Error("Cache tidak ditemukan");
+    if (result === null) throw new Error('Cache tidak ditemukan');
 
     return result;
   }
